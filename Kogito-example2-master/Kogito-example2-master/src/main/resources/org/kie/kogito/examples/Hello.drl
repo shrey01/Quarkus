@@ -1,0 +1,22 @@
+package org.kie.kogito.examples;
+unit Hello;
+
+import org.kie.kogito.rules.DataSource;
+import org.kie.kogito.rules.DataStore;
+import org.kie.kogito.rules.RuleUnitData;
+
+declare Hello extends RuleUnitData
+  result : Result = new Result()
+  persons : DataStore<Person> = DataSource.createStore()
+end
+
+rule "older than 18"
+when
+    $p : /persons[age > 18]
+then
+    result.addAdultPersonName("Hello, " + $p.getName());
+end
+
+query hello
+    $r : Result() from result
+end
